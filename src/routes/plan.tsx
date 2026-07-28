@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useState } from "react";
 import { generateItinerary, type PlanInput } from "@/lib/mock-itinerary";
 import { tripStore } from "@/lib/trip-store";
@@ -43,6 +44,14 @@ const INTERESTS = ["Beaches", "Mountains", "History", "Museums", "Cafés", "Natu
 const TRANSPORT = ["Walking", "Public transit", "Rental car", "Rideshare"];
 
 function PlanPage() {
+  return (
+    <ProtectedRoute>
+      <PlanPageContent />
+    </ProtectedRoute>
+  );
+}
+
+function PlanPageContent() {
   const navigate = useNavigate();
   const { category, destination } = Route.useSearch();
   const preset = category ? CATEGORY_PRESETS[category] : undefined;

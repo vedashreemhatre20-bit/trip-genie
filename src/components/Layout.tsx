@@ -1,6 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Sparkles, MessageCircle, Bookmark, User } from "lucide-react";
+import { Home, Sparkles, MessageCircle, Bookmark, User, LogOut, Shield } from "lucide-react";
 import type { ReactNode } from "react";
+import { useAuth } from "@/lib/auth-context";
 
 const tabs = [
   { to: "/", label: "Home", icon: Home },
@@ -12,6 +13,7 @@ const tabs = [
 
 export function Layout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { user, isAdmin, signOut } = useAuth();
 
   return (
     <div className="min-h-screen pb-28 md:pb-10">
@@ -40,13 +42,58 @@ export function Layout({ children }: { children: ReactNode }) {
               </Link>
             );
           })}
+          {isAdmin && (
+            <Link
+              to="/admin"
+              className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
+                pathname === "/admin" ? "bg-gradient-primary text-white shadow-glow" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Admin
+            </Link>
+          )}
         </nav>
-        <Link
-          to="/plan"
-          className="hidden rounded-full bg-gradient-gold px-4 py-2 text-sm font-semibold text-[oklch(0.15_0.05_265)] shadow-glow md:inline-flex"
-        >
-          Plan a trip
-        </Link>
+        <div className="flex items-center gap-2">
+          {user ? (
+            <>
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  className="hidden rounded-full glass px-3 py-2 text-sm text-gold md:inline-flex items-center gap-1.5"
+                >
+                  <Shield className="h-3.5 w-3.5" /> Admin
+                </Link>
+              )}
+              <div className="hidden md:flex items-center gap-2">
+                <div className="grid h-8 w-8 place-items-center rounded-full bg-gradient-primary text-xs font-bold">
+                  {(user.user_metadata?.full_name || user.email || "U")[0]?.toUpperCase()}
+                </div>
+                <button
+                  onClick={signOut}
+                  className="rounded-full glass px-3 py-2 text-sm text-muted-foreground hover:text-foreground"
+                  title="Sign out"
+                >
+                  <LogOut className="h-4 w-4" />
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="hidden md:flex items-center gap-2">
+              <Link
+                to="/login"
+                className="rounded-full glass px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+              >
+                Sign in
+              </Link>
+              <Link
+                to="/signup"
+                className="rounded-full bg-gradient-gold px-4 py-2 text-sm font-semibold text-[oklch(0.15_0.05_265)] shadow-glow"
+              >
+                Sign up
+              </Link>
+            </div>
+          )}
+        </div>
       </header>
 
       <main className="mx-auto max-w-7xl px-5 md:px-8">{children}</main>

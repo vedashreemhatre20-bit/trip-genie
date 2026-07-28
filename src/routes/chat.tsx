@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useState, useRef, useEffect } from "react";
 import { Send, Sparkles, Mic } from "lucide-react";
 
@@ -34,6 +35,14 @@ const canned = (q: string) => {
 };
 
 function ChatPage() {
+  return (
+    <ProtectedRoute>
+      <ChatPageContent />
+    </ProtectedRoute>
+  );
+}
+
+function ChatPageContent() {
   const [msgs, setMsgs] = useState<Msg[]>([
     { role: "ai", text: "Hey! I'm TripAI ✨ Where are we going, or what should I plan?" },
   ]);

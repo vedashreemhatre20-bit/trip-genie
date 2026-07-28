@@ -9,13 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SavedRouteImport } from './routes/saved'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PlanRouteImport } from './routes/plan'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as ItineraryRouteImport } from './routes/itinerary'
 import { Route as ChatRouteImport } from './routes/chat'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SavedRoute = SavedRouteImport.update({
   id: '/saved',
   path: '/saved',
@@ -31,6 +39,11 @@ const PlanRoute = PlanRouteImport.update({
   path: '/plan',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ItineraryRoute = ItineraryRouteImport.update({
   id: '/itinerary',
   path: '/itinerary',
@@ -41,6 +54,11 @@ const ChatRoute = ChatRouteImport.update({
   path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -49,55 +67,77 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/chat': typeof ChatRoute
   '/itinerary': typeof ItineraryRoute
+  '/login': typeof LoginRoute
   '/plan': typeof PlanRoute
   '/profile': typeof ProfileRoute
   '/saved': typeof SavedRoute
+  '/signup': typeof SignupRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/chat': typeof ChatRoute
   '/itinerary': typeof ItineraryRoute
+  '/login': typeof LoginRoute
   '/plan': typeof PlanRoute
   '/profile': typeof ProfileRoute
   '/saved': typeof SavedRoute
+  '/signup': typeof SignupRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/chat': typeof ChatRoute
   '/itinerary': typeof ItineraryRoute
+  '/login': typeof LoginRoute
   '/plan': typeof PlanRoute
   '/profile': typeof ProfileRoute
   '/saved': typeof SavedRoute
+  '/signup': typeof SignupRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chat' | '/itinerary' | '/plan' | '/profile' | '/saved'
+  fullPaths: '/' | '/admin' | '/chat' | '/itinerary' | '/login' | '/plan' | '/profile' | '/saved' | '/signup'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chat' | '/itinerary' | '/plan' | '/profile' | '/saved'
+  to: '/' | '/admin' | '/chat' | '/itinerary' | '/login' | '/plan' | '/profile' | '/saved' | '/signup'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/chat'
     | '/itinerary'
+    | '/login'
     | '/plan'
     | '/profile'
     | '/saved'
+    | '/signup'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   ChatRoute: typeof ChatRoute
   ItineraryRoute: typeof ItineraryRoute
+  LoginRoute: typeof LoginRoute
   PlanRoute: typeof PlanRoute
   ProfileRoute: typeof ProfileRoute
   SavedRoute: typeof SavedRoute
+  SignupRoute: typeof SignupRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/saved': {
       id: '/saved'
       path: '/saved'
@@ -119,6 +159,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlanRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/itinerary': {
       id: '/itinerary'
       path: '/itinerary'
@@ -133,6 +180,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -145,11 +199,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   ChatRoute: ChatRoute,
   ItineraryRoute: ItineraryRoute,
+  LoginRoute: LoginRoute,
   PlanRoute: PlanRoute,
   ProfileRoute: ProfileRoute,
   SavedRoute: SavedRoute,
+  SignupRoute: SignupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

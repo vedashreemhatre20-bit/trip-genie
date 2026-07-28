@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useEffect, useState } from "react";
 import { tripStore, type SavedTrip } from "@/lib/trip-store";
 import { Trash2, MapPin } from "lucide-react";
@@ -17,6 +18,14 @@ export const Route = createFileRoute("/saved")({
 });
 
 function SavedPage() {
+  return (
+    <ProtectedRoute>
+      <SavedPageContent />
+    </ProtectedRoute>
+  );
+}
+
+function SavedPageContent() {
   const [trips, setTrips] = useState<SavedTrip[]>([]);
   useEffect(() => { setTrips(tripStore.list()); }, []);
 

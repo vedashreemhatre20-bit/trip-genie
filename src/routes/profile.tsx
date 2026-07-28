@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { User, Mail, Globe, Bell, LogOut, Check, X, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -48,6 +49,14 @@ function loadPrefs(): Prefs {
 }
 
 function ProfilePage() {
+  return (
+    <ProtectedRoute>
+      <ProfilePageContent />
+    </ProtectedRoute>
+  );
+}
+
+function ProfilePageContent() {
   const [prefs, setPrefs] = useState<Prefs>(DEFAULT_PREFS);
   const [hydrated, setHydrated] = useState(false);
   const [openPanel, setOpenPanel] = useState<null | "email" | "locale" | "notif">(null);
