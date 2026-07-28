@@ -74,15 +74,17 @@ function Index() {
       {/* Categories */}
       <section className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {categories.map((c) => (
-          <button
+          <Link
             key={c.label}
+            to="/plan"
+            search={{ category: c.category }}
             className="glass hover:bg-accent/40 flex items-center gap-3 rounded-2xl px-4 py-3 text-left transition-colors"
           >
             <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-primary">
               <c.icon className="h-4 w-4" />
             </div>
             <span className="text-sm font-medium">{c.label}</span>
-          </button>
+          </Link>
         ))}
       </section>
 
