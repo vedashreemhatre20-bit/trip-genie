@@ -35,13 +35,15 @@ const TRANSPORT = ["Walking", "Public transit", "Rental car", "Rideshare"];
 
 function PlanPage() {
   const navigate = useNavigate();
+  const { category } = Route.useSearch();
+  const preset = category ? CATEGORY_PRESETS[category] : undefined;
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState<PlanInput>({
-    destination: "Lisbon",
+    destination: preset?.destination ?? "Lisbon",
     days: 4,
     budget: 1200,
-    style: "Cultural",
-    interests: ["Cafés", "History", "Photography"],
+    style: preset?.style ?? "Cultural",
+    interests: preset?.interests ?? ["Cafés", "History", "Photography"],
     transport: "Walking",
   });
 
