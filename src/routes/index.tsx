@@ -96,9 +96,11 @@ function Index() {
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {destinations.map((d, i) => (
-            <article
+            <Link
               key={d.name}
-              className="group relative overflow-hidden rounded-2xl glass hover:shadow-glow transition-all"
+              to="/plan"
+              search={{ destination: d.name }}
+              className="group relative block overflow-hidden rounded-2xl glass hover:shadow-glow transition-all"
               style={{ animation: `float 6s ease-in-out ${i * 0.4}s infinite` }}
             >
               <div className="relative h-56 overflow-hidden">
@@ -123,7 +125,7 @@ function Index() {
                   <div className="font-semibold">{d.price}</div>
                 </div>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </section>
