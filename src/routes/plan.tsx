@@ -5,12 +5,13 @@ import { generateItinerary, type PlanInput } from "@/lib/mock-itinerary";
 import { tripStore } from "@/lib/trip-store";
 import { Sparkles, Wallet, Calendar, Plane, Loader2 } from "lucide-react";
 
-type PlanSearch = { category?: string };
+type PlanSearch = { category?: string; destination?: string };
 
 export const Route = createFileRoute("/plan")({
   component: PlanPage,
   validateSearch: (search: Record<string, unknown>): PlanSearch => ({
     category: typeof search.category === "string" ? search.category : undefined,
+    destination: typeof search.destination === "string" ? search.destination : undefined,
   }),
   head: () => ({
     meta: [
@@ -29,21 +30,30 @@ const CATEGORY_PRESETS: Record<string, { destination: string; style: string; int
   adventure: { destination: "Queenstown", style: "Adventure", interests: ["Mountains", "Nature", "Hidden gems"] },
 };
 
+const DESTINATION_PRESETS: Record<string, { style: string; interests: string[] }> = {
+  Santorini: { style: "Relaxed", interests: ["Beaches", "Photography", "Cafés"] },
+  Bali: { style: "Relaxed", interests: ["Beaches", "Nature", "Photography"] },
+  Tokyo: { style: "Cultural", interests: ["Museums", "Cafés", "Shopping"] },
+  "Swiss Alps": { style: "Adventure", interests: ["Mountains", "Nature", "Photography"] },
+  Dubai: { style: "Nightlife", interests: ["Shopping", "Nightlife", "Photography"] },
+};
+
 const STYLES = ["Relaxed", "Adventure", "Cultural", "Foodie", "Nightlife", "Family"];
 const INTERESTS = ["Beaches", "Mountains", "History", "Museums", "Cafés", "Nature", "Shopping", "Nightlife", "Photography", "Hidden gems"];
 const TRANSPORT = ["Walking", "Public transit", "Rental car", "Rideshare"];
 
 function PlanPage() {
   const navigate = useNavigate();
-  const { category } = Route.useSearch();
+  const { category, destination } = Route.useSearch();
   const preset = category ? CATEGORY_PRESETS[category] : undefined;
+  const destPreset = destination ? DESTINATION_PRESETS[destination] : undefined;
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState<PlanInput>({
-    destination: preset?.destination ?? "Lisbon",
+    destination: destination ?? preset?.destination ?? "Lisbon",
     days: 4,
     budget: 1200,
-    style: preset?.style ?? "Cultural",
-    interests: preset?.interests ?? ["Cafés", "History", "Photography"],
+    style: destPreset?.style ?? preset?.style ?? "Cultural",
+    interests: destPreset?.interests ?? preset?.interests ?? ["Cafés", "History", "Photography"],
     transport: "Walking",
   });
 
