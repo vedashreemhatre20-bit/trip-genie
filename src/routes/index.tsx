@@ -28,10 +28,10 @@ const destinations = [
 ];
 
 const categories = [
-  { label: "Beaches", icon: Sun },
-  { label: "Mountains", icon: Compass },
-  { label: "City breaks", icon: MapPin },
-  { label: "Adventure", icon: TrendingUp },
+  { label: "Beaches", icon: Sun, category: "beaches" },
+  { label: "Mountains", icon: Compass, category: "mountains" },
+  { label: "City breaks", icon: MapPin, category: "city" },
+  { label: "Adventure", icon: TrendingUp, category: "adventure" },
 ];
 
 function Index() {
