@@ -5,8 +5,13 @@ import { generateItinerary, type PlanInput } from "@/lib/mock-itinerary";
 import { tripStore } from "@/lib/trip-store";
 import { Sparkles, Wallet, Calendar, Plane, Loader2 } from "lucide-react";
 
+type PlanSearch = { category?: string };
+
 export const Route = createFileRoute("/plan")({
   component: PlanPage,
+  validateSearch: (search: Record<string, unknown>): PlanSearch => ({
+    category: typeof search.category === "string" ? search.category : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "AI Planner — TripAI" },
@@ -16,6 +21,13 @@ export const Route = createFileRoute("/plan")({
     ],
   }),
 });
+
+const CATEGORY_PRESETS: Record<string, { destination: string; style: string; interests: string[] }> = {
+  beaches: { destination: "Bali", style: "Relaxed", interests: ["Beaches", "Nature", "Photography"] },
+  mountains: { destination: "Swiss Alps", style: "Adventure", interests: ["Mountains", "Nature", "Photography"] },
+  city: { destination: "Tokyo", style: "Cultural", interests: ["Museums", "Cafés", "Shopping"] },
+  adventure: { destination: "Queenstown", style: "Adventure", interests: ["Mountains", "Nature", "Hidden gems"] },
+};
 
 const STYLES = ["Relaxed", "Adventure", "Cultural", "Foodie", "Nightlife", "Family"];
 const INTERESTS = ["Beaches", "Mountains", "History", "Museums", "Cafés", "Nature", "Shopping", "Nightlife", "Photography", "Hidden gems"];
