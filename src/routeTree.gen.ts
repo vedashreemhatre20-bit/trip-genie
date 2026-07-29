@@ -101,9 +101,27 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/chat' | '/itinerary' | '/login' | '/plan' | '/profile' | '/saved' | '/signup'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/chat'
+    | '/itinerary'
+    | '/login'
+    | '/plan'
+    | '/profile'
+    | '/saved'
+    | '/signup'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/chat' | '/itinerary' | '/login' | '/plan' | '/profile' | '/saved' | '/signup'
+  to:
+    | '/'
+    | '/admin'
+    | '/chat'
+    | '/itinerary'
+    | '/login'
+    | '/plan'
+    | '/profile'
+    | '/saved'
+    | '/signup'
   id:
     | '__root__'
     | '/'
